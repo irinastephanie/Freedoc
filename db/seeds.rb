@@ -10,11 +10,16 @@ require 'faker'
 Doctor.destroy_all
 Patient.destroy_all
 Appointment.destroy_all
+City.destroy_all
+
+10.times do
+  city = City.create!(city_name: Faker::Address.city)
+end
 
 20.times do 
-  doctor = Doctor.create!(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, specialty: Faker::Job.field, zip_code: Faker::Address.zip)
-  patient = Patient.create!(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name)
+  doctor = Doctor.create!(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, specialty: Faker::Job.field, zip_code: Faker::Address.zip, city: City.find(rand(City.first.id..City.last.id)))
+  patient = Patient.create!(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, city: City.find(rand(City.first.id..City.last.id)))
 end
 30.times do
-  appointment = Appointment.create!(date: Faker::Date.forward(days:28), doctor: Doctor.find(rand(Doctor.first.id..Doctor.last.id)), patient: Patient.find(rand(Patient.first.id..Patient.last.id)))
+  appointment = Appointment.create!(date: Faker::Date.forward(days:28), doctor: Doctor.find(rand(Doctor.first.id..Doctor.last.id)), patient: Patient.find(rand(Patient.first.id..Patient.last.id)), city: City.find(rand(City.first.id..City.last.id)))
 end 
